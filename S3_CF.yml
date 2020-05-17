@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: N/A
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      Tags:
+        - Key: Environment
+          Value: non-production
+
+
+  
