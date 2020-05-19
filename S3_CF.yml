@@ -7,9 +7,11 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
+      # Name your Bucket
+      BucketName: ericyicameraphoto
+      ServerSideEncryptionConfiguration:
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256 
       Tags:
         - Key: Environment
           Value: non-production
-
-
-  
