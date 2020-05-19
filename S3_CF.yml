@@ -9,9 +9,15 @@ Resources:
       AccessControl: Private
       # Name your Bucket
       BucketName: ericyicameraphoto
-      ServerSideEncryptionConfiguration:
-        - ServerSideEncryptionByDefault:
-            SSEAlgorithm: AES256 
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
       Tags:
         - Key: Environment
           Value: non-production
+
+Outputs:
+  S3Bucket:
+    Value: !Ref S3Bucket
+    Description: Bucket Name
