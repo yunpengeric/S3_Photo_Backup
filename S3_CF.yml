@@ -2,13 +2,18 @@ AWSTemplateFormatVersion: 2010-09-09
 
 Description: N/A
 
+Parameters:
+  BucketName:
+    Description: Name your Bucket
+    Type: String
+    
+
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       AccessControl: Private
-      # Name your Bucket
-      BucketName: ericyicameraphoto
+      BucketName: !Ref BucketName
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
