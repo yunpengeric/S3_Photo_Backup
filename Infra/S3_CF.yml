@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Create a S3 Bucket for photo backup, Attach an IAM managed Policy to IAM user
+
+Parameters:
+  BucketName:
+    Description: Name your Bucket
+    Type: String
+  UserName:
+    Description: Name your IAM UserName
+    Type: String
+    
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: Private
+      BucketName: !Ref BucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      Tags:
+        - Key: Environment
+          Value: non-production
+  
+  IAMUser:
+    Type: AWS::IAM::User
+    Properties:
+      Tags:
+        - Key: Environment
+          Value: non-production
+      UserName: !Ref UserName
+
+  ManagedPolicy:
+    Description: Create a standalone ManagedPolicy for S3 Photo Backup
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action:
+            - 's3:PutObject'
+            - 's3:GetObject'
+            - 's3:DeleteObject'
+          Resource: !GetAtt S3Bucket.Arn
+      Users: 
+        - !Ref UserName
+
+  AccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties: 
+      UserName: !Ref IAMUser
+         
+          
+Outputs:
+  S3Bucket:
+    Value: !Ref S3Bucket
+    Description: Bucket Name
+
+  AccessKey:
+    Value: !Ref AccessKey
+    Description: AWSAccessKeyId of S3 Bucket user
+
+  SecretKey:
+    Value: !GetAtt AccessKey.SecretAccessKey
+    Description: AWSSecretAccessKey of S3 Bucket user
