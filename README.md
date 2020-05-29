@@ -1,6 +1,5 @@
 # S3_Photo_Backup
--------
-# Process
+## Process
 1. In your AWS CLI, type:
 ```
 aws cloudformation create-stack 
